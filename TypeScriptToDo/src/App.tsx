@@ -1,21 +1,30 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Task from "./types.ts";
+import deleteTodoProps from "./types.ts";
 import Item from "./Item.tsx";
 import "./App.css";
 
 function App() {
-  const initialTodos: string[] = [
-    "почитать книгу",
-    "сходить в зал",
-    "посмотреть видео",
-    "изучить доку",
+  const initialTodos: Task[] = [
+    { id: new Date().toString(), title: "почитать книгу" },
+    { id: new Date().toString(), title: "сходить в зал" },
+    { id: new Date().toString(), title: "посмотреть видео" },
+    { id: new Date().toString(), title: "изучить доку" },
   ];
 
   const [todos, setTodos] = useState(
-    JSON.parse(localStorage.getItem("todos") ?? []) || initialTodos
+    JSON.parse(localStorage.getItem("todos") ?? JSON.stringify(initialTodos))
   );
 
-  const addTodoHandler = (event: MouseEvent) => {
-    setTodos([...todos, event.target.value]);
+  const inputRef = useRef<any>(null);
+
+  const addTodoHandler = () => {
+    setTodos([...todos, inputRef.current]);
+  };
+
+  const deleteTodoHandler = (id: string) => {
+    const remainingTodo = todos.filter((item: Task) => item.id !== id);
+    setTodos(remainingTodo);
   };
 
   useEffect(() => {
@@ -24,11 +33,20 @@ function App() {
 
   return (
     <div>
-      {todos.map((item, index) => {
-        return <Item key={index} item={item} />;
+      {todos.map((item: Task) => {
+        return (
+          <Item key={item.id} item={item} deleteTodo={deleteTodoHandler} />
+        );
       })}
       <form>
-        <input type='text' placeholder='Ввести задачу' />
+        <input
+          ref={inputRef}
+          onChange={(event) =>
+            ((inputRef.current as unknown as string) = event.target.value)
+          }
+          type='text'
+          placeholder='Ввести задачу'
+        />
         <button onClick={addTodoHandler} type='submit'>
           Добавить
         </button>
