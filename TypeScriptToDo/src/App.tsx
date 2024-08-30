@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import Task from "./types.ts";
-import deleteTodoProps from "./types.ts";
+import { Task } from "./types.ts";
 import Item from "./Item.tsx";
 import "./App.css";
 
 function App() {
   const initialTodos: Task[] = [
-    { id: new Date().toString(), title: "почитать книгу" },
-    { id: new Date().toString(), title: "сходить в зал" },
-    { id: new Date().toString(), title: "посмотреть видео" },
-    { id: new Date().toString(), title: "изучить доку" },
+    { id: "0", title: "почитать книгу" },
+    { id: "1", title: "сходить в зал" },
+    { id: "2", title: "посмотреть видео" },
+    { id: "3", title: "изучить доку" },
+    { id: "4", title: "закончить уборку" },
   ];
 
   const [todos, setTodos] = useState(

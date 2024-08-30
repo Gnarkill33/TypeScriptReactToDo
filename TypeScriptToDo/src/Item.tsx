@@ -1,15 +1,17 @@
-import Task from "./types.ts";
-import deleteTodoProps from "./types.ts";
+import { Task } from "./types.ts";
 
-const Item = (
-  { item }: { item: Task },
-  { id }: { id: string },
-  { deleteTodo = () => {} }: deleteTodoProps
-) => {
+const Item = ({
+  item,
+  deleteTodo,
+}: {
+  item: Task;
+  deleteTodo: (id: string) => void;
+}) => {
+  console.log(item);
   return (
     <>
-      <div>{item}</div>
-      <button onClick={() => deleteTodo(id)}>Удалить</button>
+      <div>{item.title}</div>
+      <button onClick={() => deleteTodo(item.id)}>Удалить</button>
     </>
   );
 };
